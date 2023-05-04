@@ -7,9 +7,23 @@ on:
 
 # What's going to happen whenever it's triggered?
 jobs:
+  test:
+    name: Test Database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: 
+          node-version: 16.x
+      - run: npm ci
+      - run: npm test
+
   # unique id for this job:
-  deploy:
+  build_and_deploy:
     name: Deploy
+    # needs: could go here if depends on another job; leave off if not needed
+    needs: test
+    # runs-on what system?  Docker :
     runs-on: ubuntu-latest
     # steps?
     steps:
